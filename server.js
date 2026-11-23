@@ -18,6 +18,95 @@ app.get('/health', (req, res) => {
   res.json({ message: 'It works!!' });
 });
 
+// Allowed values for two of the fields
+const validCategories = ['breakfast', 'soups', 'mains', 'salads', 'baking', 'desserts'];
+const validDifficulties = ['easy', 'medium', 'hard'];
+
+// Turn a value into trimmed text (anything that is not text becomes an empty string)
+function toText(value) {
+  if (typeof value === 'string') {
+    return value.trim();
+  }
+  return '';
+}
+
+// Check the data sent by the form (used by POST and PUT).
+// Returns two things:
+//   errors - one message per wrong field, for example { title: 'Enter a recipe name...' }
+//   recipe - the cleaned values (trimmed text, real numbers), ready to save
+// If "errors" is empty, the data is valid.
+function validateRecipe(body) {
+  const data = body || {};
+  const errors = {};
+
+  const title = toText(data.title);
+  const description = toText(data.description);
+  const category = toText(data.category);
+  const timeMinutes = Number(data.time_minutes);
+  const servings = Number(data.servings);
+  const photoUrl = toText(data.photo_url);
+  const ingredients = toText(data.ingredients);
+  const steps = toText(data.steps);
+
+  // Difficulty is optional in the request: if it is missing we use "easy"
+  let difficulty = toText(data.difficulty);
+  if (difficulty === '') {
+    difficulty = 'easy';
+  }
+
+  if (title.length < 3) {
+    errors.title = 'Enter a recipe name (at least 3 characters).';
+  }
+
+  if (description.length > 200) {
+    errors.description = 'Use at most 200 characters.';
+  }
+
+  if (!validCategories.includes(category)) {
+    errors.category = 'Choose a category.';
+  }
+
+  // Must be a whole number greater than 0
+  if (!Number.isInteger(timeMinutes) || timeMinutes <= 0) {
+    errors.time_minutes = 'Enter a number greater than 0.';
+  }
+
+  if (!Number.isInteger(servings) || servings <= 0) {
+    errors.servings = 'Enter a number greater than 0.';
+  }
+
+  if (!validDifficulties.includes(difficulty)) {
+    errors.difficulty = 'Choose easy, medium or hard.';
+  }
+
+  // The photo is optional, but if there is a link it must start with http:// or https://
+  if (photoUrl !== '' && !photoUrl.startsWith('http://') && !photoUrl.startsWith('https://')) {
+    errors.photo_url = 'Enter a valid link that starts with https://';
+  }
+
+  if (ingredients === '') {
+    errors.ingredients = 'Add at least one ingredient.';
+  }
+
+  if (steps === '') {
+    errors.steps = 'Describe at least one step.';
+  }
+
+  const recipe = {
+    title: title,
+    description: description,
+    category: category,
+    time_minutes: timeMinutes,
+    servings: servings,
+    difficulty: difficulty,
+    photo_url: photoUrl,
+    ingredients: ingredients,
+    steps: steps
+  };
+
+  return { errors, recipe };
+}
+
 // List recipes. Optional query parameters:
 //   ?search=   text found in the title or in the ingredients (any letter case)
 //   ?category= exact category, for example "mains"
