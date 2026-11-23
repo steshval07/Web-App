@@ -268,11 +268,16 @@ const demoRecipes = [
 const count = db.prepare('SELECT COUNT(*) AS total FROM recipes').get();
 
 if (count.total === 0) {
+  // Take the current time ONCE, so all demo recipes get exactly the same created_at.
+  // (If each got its own time, the pancakes could end up a second older than the rest
+  // and be sorted last.) Recipes added later get a newer time, so they stay on top.
+  const seedTime = db.prepare("SELECT datetime('now') AS now").get().now;
+
   const insertRecipe = db.prepare(`
     INSERT INTO recipes
-      (title, description, category, time_minutes, servings, difficulty, photo_url, ingredients, steps)
+      (title, description, category, time_minutes, servings, difficulty, photo_url, ingredients, steps, created_at)
     VALUES
-      (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
   for (const recipe of demoRecipes) {
@@ -285,7 +290,8 @@ if (count.total === 0) {
       recipe.difficulty,
       recipe.photo_url + photoOptions,
       recipe.ingredients.join('\n'),
-      recipe.steps.join('\n')
+      recipe.steps.join('\n'),
+      seedTime
     );
   }
 }
