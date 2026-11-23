@@ -63,6 +63,22 @@ app.get('/api/recipes', (req, res) => {
   }
 });
 
+// Return one recipe by its id, or 404 if it doesn't exist
+app.get('/api/recipes/:id', (req, res) => {
+  try {
+    const recipe = db.prepare('SELECT * FROM recipes WHERE id = ?').get(req.params.id);
+
+    if (!recipe) {
+      return res.status(404).json({ error: 'Recipe not found' });
+    }
+
+    res.json(recipe);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
