@@ -204,6 +204,65 @@ app.post('/api/recipes', (req, res) => {
   }
 });
 
+// Update an existing recipe (replace all its fields with the new values)
+app.put('/api/recipes/:id', (req, res) => {
+  try {
+    // First check that the recipe exists
+    const existing = db.prepare('SELECT * FROM recipes WHERE id = ?').get(req.params.id);
+    if (!existing) {
+      return res.status(404).json({ error: 'Recipe not found' });
+    }
+
+    // Then check the new values, exactly like when creating a recipe
+    const { errors, recipe } = validateRecipe(req.body);
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({ errors });
+    }
+
+    // id and created_at stay the same
+    db.prepare(`
+      UPDATE recipes
+      SET title = ?, description = ?, category = ?, time_minutes = ?, servings = ?,
+          difficulty = ?, photo_url = ?, ingredients = ?, steps = ?
+      WHERE id = ?
+    `).run(
+      recipe.title,
+      recipe.description,
+      recipe.category,
+      recipe.time_minutes,
+      recipe.servings,
+      recipe.difficulty,
+      recipe.photo_url,
+      recipe.ingredients,
+      recipe.steps,
+      existing.id
+    );
+
+    // Read the recipe again and send the updated version
+    const updated = db.prepare('SELECT * FROM recipes WHERE id = ?').get(existing.id);
+    res.json(updated);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
+
+// Delete a recipe by its id
+app.delete('/api/recipes/:id', (req, res) => {
+  try {
+    const existing = db.prepare('SELECT * FROM recipes WHERE id = ?').get(req.params.id);
+    if (!existing) {
+      return res.status(404).json({ error: 'Recipe not found' });
+    }
+
+    db.prepare('DELETE FROM recipes WHERE id = ?').run(existing.id);
+    res.json({ message: 'Recipe deleted' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
