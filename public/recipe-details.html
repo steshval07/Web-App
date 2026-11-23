@@ -43,34 +43,36 @@
   </header>
 
     <main>
+    <!-- NOTE: the tomato soup below is only a placeholder.
+         recipe.js replaces it with the recipe from the address (?id=...). -->
     <!-- ================= RECIPE HEADER ================= -->
     <section class="recipe-hero">
       <div class="container">
         <nav class="breadcrumbs" aria-label="Breadcrumbs">
           <a href="index.html">Recipes</a><span>/</span>
-          <a href="categories.html">Soups</a><span>/</span>
-          <span>Creamy tomato soup</span>
+          <a href="categories.html" id="crumb-category">Soups</a><span>/</span>
+          <span id="crumb-title">Creamy tomato soup</span>
         </nav>
 
         <div class="recipe-hero__top">
           <div>
-            <span class="eyebrow">Soups</span>
-            <h1 class="recipe-hero__title">Creamy tomato soup</h1>
-            <p class="recipe-hero__desc">Sweet roasted tomatoes, garlic and a splash of cream — a velvety bowl of comfort that tastes even better the next day.</p>
+            <span class="eyebrow" id="recipe-category">Soups</span>
+            <h1 class="recipe-hero__title" id="recipe-title">Creamy tomato soup</h1>
+            <p class="recipe-hero__desc" id="recipe-description">Sweet roasted tomatoes, garlic and a splash of cream — a velvety bowl of comfort that tastes even better the next day.</p>
           </div>
           <div class="recipe-hero__actions">
-            <a href="add-recipe.html" class="btn btn--outline"><i class="ti ti-pencil"></i>Edit</a>
+            <a href="add-recipe.html" class="btn btn--outline" id="edit-link"><i class="ti ti-pencil"></i>Edit</a>
             <a href="#delete-modal" class="btn btn--danger"><i class="ti ti-trash"></i>Delete</a>
           </div>
         </div>
 
-        <div class="photo photo--tomato"><img src="https://images.pexels.com/photos/17302314/pexels-photo-17302314.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Creamy tomato soup with basil and bread" loading="lazy"></div>
+        <div class="photo photo--tomato"><img id="recipe-photo" src="https://images.pexels.com/photos/17302314/pexels-photo-17302314.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Creamy tomato soup with basil and bread" loading="lazy"></div>
 
         <div class="stats">
-          <div class="stat"><i class="ti ti-clock"></i><div><p class="stat__label">Time</p><p class="stat__value">35 min</p></div></div>
-          <div class="stat"><i class="ti ti-users"></i><div><p class="stat__label">Servings</p><p class="stat__value">4</p></div></div>
-          <div class="stat"><i class="ti ti-chart-bar"></i><div><p class="stat__label">Level</p><p class="stat__value">Easy</p></div></div>
-          <div class="stat"><i class="ti ti-tag"></i><div><p class="stat__label">Category</p><p class="stat__value">Soups</p></div></div>
+          <div class="stat"><i class="ti ti-clock"></i><div><p class="stat__label">Time</p><p class="stat__value" id="recipe-time">35 min</p></div></div>
+          <div class="stat"><i class="ti ti-users"></i><div><p class="stat__label">Servings</p><p class="stat__value" id="recipe-servings">4</p></div></div>
+          <div class="stat"><i class="ti ti-chart-bar"></i><div><p class="stat__label">Level</p><p class="stat__value" id="recipe-difficulty">Easy</p></div></div>
+          <div class="stat"><i class="ti ti-tag"></i><div><p class="stat__label">Category</p><p class="stat__value" id="recipe-category-stat">Soups</p></div></div>
         </div>
       </div>
     </section>
@@ -79,8 +81,8 @@
     <section class="section" style="padding-top:0">
       <div class="container recipe-body">
         <aside class="ingredients">
-          <h2 class="block-title">Ingredients <small>8 items</small></h2>
-          <ul class="ingredient-list">
+          <h2 class="block-title">Ingredients <small id="ingredient-count">8 items</small></h2>
+          <ul class="ingredient-list" id="ingredient-list">
             <li><label class="ingredient"><input type="checkbox"><span class="ingredient__name">Ripe tomatoes</span><span class="ingredient__qty">1 kg</span></label></li>
             <li><label class="ingredient"><input type="checkbox"><span class="ingredient__name">Yellow onion</span><span class="ingredient__qty">1 pc</span></label></li>
             <li><label class="ingredient"><input type="checkbox"><span class="ingredient__name">Garlic cloves</span><span class="ingredient__qty">4 pcs</span></label></li>
@@ -94,37 +96,40 @@
 
         <div>
           <h2 class="block-title">Method</h2>
-          <ol class="steps">
+          <ol class="steps" id="steps-list">
             <li class="step">
               <div>
-                <h3 class="step__title">Roast the vegetables</h3>
                 <p class="step__text">Heat the oven to 200 °C. Halve the tomatoes, quarter the onion and place them on a tray with the garlic. Drizzle with olive oil, season and roast for 25 minutes.</p>
               </div>
             </li>
             <li class="step">
               <div>
-                <h3 class="step__title">Simmer</h3>
                 <p class="step__text">Tip everything into a pot, pour in the stock and bring to a gentle simmer for 5 minutes.</p>
               </div>
             </li>
             <li class="step">
               <div>
-                <h3 class="step__title">Blend until smooth</h3>
                 <p class="step__text">Add most of the basil and blend with a stick blender until silky. Stir in the cream and adjust the seasoning.</p>
               </div>
             </li>
             <li class="step">
               <div>
-                <h3 class="step__title">Serve</h3>
                 <p class="step__text">Ladle into bowls, top with the remaining basil and a swirl of olive oil. Great with toasted bread.</p>
               </div>
             </li>
           </ol>
+        </div>
+      </div>
+    </section>
 
-          <div class="tip">
-            <p class="tip__title">Chef's tip</p>
-            <p>Roast the tomatoes until their edges start to char — that's where all the deep, sweet flavour comes from.</p>
-          </div>
+    <!-- ================= NOT FOUND (shown by recipe.js when the id does not exist) ================= -->
+    <section class="section" id="recipe-not-found" hidden>
+      <div class="container">
+        <div class="empty-state">
+          <i class="ti ti-mood-empty empty-state__icon"></i>
+          <h2 class="empty-state__title">Recipe not found</h2>
+          <p class="empty-state__text">This recipe does not exist or was deleted.</p>
+          <a href="index.html" class="btn btn--primary"><i class="ti ti-arrow-left"></i>Back to recipes</a>
         </div>
       </div>
     </section>
@@ -134,7 +139,7 @@
       <div class="modal__box">
         <div class="modal__icon"><i class="ti ti-trash"></i></div>
         <h2 class="modal__title" id="delete-title">Delete this recipe?</h2>
-        <p class="modal__text">“Creamy tomato soup” will be removed from your book. This can't be undone.</p>
+        <p class="modal__text">“<span id="delete-recipe-name">Creamy tomato soup</span>” will be removed from your book. This can't be undone.</p>
         <div class="modal__actions">
           <a href="#" class="btn btn--outline">Cancel</a>
           <button type="button" class="btn btn--danger-solid" id="confirm-delete">Delete recipe</button>

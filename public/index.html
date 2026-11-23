@@ -47,7 +47,7 @@
     <section class="hero">
       <div class="container hero__inner">
         <div>
-          <span class="eyebrow">128 recipes in the collection</span>
+          <span class="eyebrow">Your recipe collection</span>
           <h1 class="hero__title">Cook what<br>you <em>love</em>.</h1>
           <p class="hero__lead">Your personal recipe book. Save family classics, find new favourites and never lose a recipe again.</p>
 
@@ -86,7 +86,8 @@
     <!-- ================= FEATURED ================= -->
     <section class="section--tight">
       <div class="container">
-        <a href="recipe-details.html" class="featured">
+        <!-- Editor's pick: the database seed must insert the pancakes recipe FIRST so that it gets id 1 -->
+        <a href="recipe-details.html?id=1" class="featured">
           <div class="photo photo--honey"><img src="https://images.pexels.com/photos/3780469/pexels-photo-3780469.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Stack of pancakes with blackberries, blueberries and honey" loading="lazy"></div>
           <div class="featured__body">
             <span class="eyebrow">Editor's pick</span>
@@ -109,67 +110,25 @@
         <div class="toolbar">
           <div>
             <h2 class="section-head__title">All recipes</h2>
-            <p class="section-head__meta" id="results-count">Showing 8 recipes</p>
+            <p class="section-head__meta" id="results-count">Loading recipes…</p>
           </div>
           <div class="toolbar__sort">
             <label for="sort">Sort by</label>
             <select id="sort" class="select">
-              <option>Newest</option>
-              <option>Name A–Z</option>
-              <option>Cooking time</option>
+              <option value="newest">Newest</option>
+              <option value="name">Name A–Z</option>
             </select>
           </div>
         </div>
 
         <div class="grid grid--recipes" id="recipes-grid">
-          <!-- One card = one recipe. Your JS teammate can generate these from the data. -->
-          <a href="recipe-details.html" class="recipe-card">
-            <div class="photo photo--tomato"><img src="https://images.pexels.com/photos/17302314/pexels-photo-17302314.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Creamy tomato soup with basil and bread" loading="lazy"><span class="recipe-card__tag">Soups</span></div>
-            <h3 class="recipe-card__title">Roasted tomato soup</h3>
+          <!-- Template for ONE recipe card (home.js builds one of these for every recipe):
+          <a href="recipe-details.html?id=RECIPE_ID" class="recipe-card">
+            <div class="photo"><img src="PHOTO_URL" alt="RECIPE_TITLE" loading="lazy"><span class="recipe-card__tag">Category</span></div>
+            <h3 class="recipe-card__title">Recipe title</h3>
             <div class="meta"><span><i class="ti ti-clock"></i>35 min</span><span><i class="ti ti-chart-bar"></i>Easy</span></div>
           </a>
-
-          <a href="recipe-details.html" class="recipe-card">
-            <div class="photo photo--wheat"><img src="https://images.pexels.com/photos/12335533/pexels-photo-12335533.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Focaccia with rosemary and caramelised onions" loading="lazy"><span class="recipe-card__tag">Baking</span></div>
-            <h3 class="recipe-card__title">Rosemary and onion focaccia</h3>
-            <div class="meta"><span><i class="ti ti-clock"></i>2 h</span><span><i class="ti ti-chart-bar"></i>Medium</span></div>
-          </a>
-
-          <a href="recipe-details.html" class="recipe-card">
-            <div class="photo photo--sage"><img src="https://images.pexels.com/photos/434258/pexels-photo-434258.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Greek salad with feta, tomatoes and olives" loading="lazy"><span class="recipe-card__tag">Salads</span></div>
-            <h3 class="recipe-card__title">Greek salad with feta</h3>
-            <div class="meta"><span><i class="ti ti-clock"></i>15 min</span><span><i class="ti ti-chart-bar"></i>Easy</span></div>
-          </a>
-
-          <a href="recipe-details.html" class="recipe-card">
-            <div class="photo photo--plum"><img src="https://images.pexels.com/photos/3301907/pexels-photo-3301907.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Panna cotta with fresh berries and mint" loading="lazy"><span class="recipe-card__tag">Desserts</span></div>
-            <h3 class="recipe-card__title">Berry panna cotta</h3>
-            <div class="meta"><span><i class="ti ti-clock"></i>4 h</span><span><i class="ti ti-chart-bar"></i>Medium</span></div>
-          </a>
-
-          <a href="recipe-details.html" class="recipe-card">
-            <div class="photo photo--honey"><img src="https://images.pexels.com/photos/3648979/pexels-photo-3648979.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Shakshuka with eggs and herbs in a pan" loading="lazy"><span class="recipe-card__tag">Breakfast</span></div>
-            <h3 class="recipe-card__title">Shakshuka</h3>
-            <div class="meta"><span><i class="ti ti-clock"></i>30 min</span><span><i class="ti ti-chart-bar"></i>Easy</span></div>
-          </a>
-
-          <a href="recipe-details.html" class="recipe-card">
-            <div class="photo photo--sky"><img src="https://images.pexels.com/photos/725991/pexels-photo-725991.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Grilled salmon with vegetables and herbs" loading="lazy"><span class="recipe-card__tag">Mains</span></div>
-            <h3 class="recipe-card__title">Grilled salmon with vegetables</h3>
-            <div class="meta"><span><i class="ti ti-clock"></i>25 min</span><span><i class="ti ti-chart-bar"></i>Easy</span></div>
-          </a>
-
-          <a href="recipe-details.html" class="recipe-card">
-            <div class="photo photo--tomato"><img src="https://images.pexels.com/photos/32872596/pexels-photo-32872596.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Margherita pizza with basil on a wooden board" loading="lazy"><span class="recipe-card__tag">Mains</span></div>
-            <h3 class="recipe-card__title">Margherita pizza</h3>
-            <div class="meta"><span><i class="ti ti-clock"></i>1 h 30</span><span><i class="ti ti-chart-bar"></i>Medium</span></div>
-          </a>
-
-          <a href="recipe-details.html" class="recipe-card">
-            <div class="photo photo--wheat"><img src="https://images.pexels.com/photos/6406460/pexels-photo-6406460.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Creamy mushroom risotto on a plate" loading="lazy"><span class="recipe-card__tag">Mains</span></div>
-            <h3 class="recipe-card__title">Parmesan risotto</h3>
-            <div class="meta"><span><i class="ti ti-clock"></i>40 min</span><span><i class="ti ti-chart-bar"></i>Hard</span></div>
-          </a>
+          -->
         </div>
 
         <!-- Shown when search/filter finds nothing: remove the "hidden" attribute -->

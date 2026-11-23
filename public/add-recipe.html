@@ -49,7 +49,7 @@
           <a href="index.html">Recipes</a><span>/</span><span>New recipe</span>
         </nav>
         <!-- For editing, change the title to "Edit recipe" -->
-        <h1 class="page-header__title">Add a <em>new</em> recipe</h1>
+        <h1 class="page-header__title" id="form-title">Add a <em>new</em> recipe</h1>
         <p class="page-header__lead">Fill in the details below. Fields marked with <span style="color:var(--color-accent)">*</span> are required.</p>
       </div>
     </section>
@@ -71,8 +71,8 @@
               <p class="form-card__hint">The name and category help you find the recipe later.</p>
 
               <div class="form">
-                <!-- Example of the error state: class "is-invalid" on .field -->
-                <div class="field is-invalid">
+                <!-- JS adds the class "is-invalid" to a .field to show its error message -->
+                <div class="field">
                   <label for="title" class="field__label">Recipe name <span class="req">*</span></label>
                   <input type="text" id="title" name="title" class="input" placeholder="Roasted tomato soup" required>
                   <p class="field__error"><i class="ti ti-alert-circle"></i>Enter a recipe name (at least 3 characters).</p>
@@ -89,18 +89,18 @@
                     <label for="category" class="field__label">Category <span class="req">*</span></label>
                     <select id="category" name="category" class="select" required>
                       <option value="">Choose…</option>
-                      <option>Breakfast</option>
-                      <option>Soups</option>
-                      <option>Mains</option>
-                      <option>Salads</option>
-                      <option>Baking</option>
-                      <option>Desserts</option>
+                      <option value="breakfast">Breakfast</option>
+                      <option value="soups">Soups</option>
+                      <option value="mains">Mains</option>
+                      <option value="salads">Salads</option>
+                      <option value="baking">Baking</option>
+                      <option value="desserts">Desserts</option>
                     </select>
                     <p class="field__error"><i class="ti ti-alert-circle"></i>Choose a category.</p>
                   </div>
                   <div class="field">
-                    <label for="time" class="field__label">Time, min <span class="req">*</span></label>
-                    <input type="number" id="time" name="time" class="input" placeholder="35" min="1" required>
+                    <label for="time_minutes" class="field__label">Time, min <span class="req">*</span></label>
+                    <input type="number" id="time_minutes" name="time_minutes" class="input" placeholder="35" min="1" required>
                     <p class="field__error"><i class="ti ti-alert-circle"></i>Enter a number greater than 0.</p>
                   </div>
                   <div class="field">
@@ -125,45 +125,23 @@
             <div class="form-card">
               <h2 class="form-card__title">Photo</h2>
               <p class="form-card__hint">Optional, but recipes with photos look much better.</p>
-              <label class="dropzone" for="photo">
-                <i class="ti ti-photo-plus"></i>
-                <span><strong>Click to upload</strong> or drag a photo here</span>
-                <span>JPG or PNG, up to 5 MB</span>
-              </label>
-              <input type="file" id="photo" name="photo" accept="image/*" class="sr-only">
+              <div class="field">
+                <label for="photo_url" class="field__label">Photo URL</label>
+                <input type="url" id="photo_url" name="photo_url" class="input" placeholder="https://images.pexels.com/photos/...">
+                <p class="field__hint">Paste a link to a photo, for example from pexels.com or unsplash.com.</p>
+                <p class="field__error"><i class="ti ti-alert-circle"></i>Enter a valid link that starts with https://</p>
+              </div>
             </div>
 
             <!-- ===== Ingredients ===== -->
             <div class="form-card">
               <h2 class="form-card__title">Ingredients <span class="req" style="color:var(--color-accent)">*</span></h2>
-              <p class="form-card__hint">Add at least one ingredient. One ingredient per row.</p>
+              <p class="form-card__hint">One ingredient per line, with the amount after a dash, e.g. <strong>Tomatoes - 1 kg</strong>.</p>
               <div class="field">
-                <div class="list-rows" id="ingredient-rows">
-                  <div class="list-row">
-                    <label class="sr-only" for="ing-1">Ingredient</label>
-                    <input type="text" id="ing-1" class="input" placeholder="Ripe tomatoes">
-                    <label class="sr-only" for="qty-1">Quantity</label>
-                    <input type="text" id="qty-1" class="input" placeholder="1 kg">
-                    <button type="button" class="list-row__remove" aria-label="Remove ingredient"><i class="ti ti-x"></i></button>
-                  </div>
-                  <div class="list-row">
-                    <label class="sr-only" for="ing-2">Ingredient</label>
-                    <input type="text" id="ing-2" class="input" placeholder="Garlic cloves">
-                    <label class="sr-only" for="qty-2">Quantity</label>
-                    <input type="text" id="qty-2" class="input" placeholder="4 pcs">
-                    <button type="button" class="list-row__remove" aria-label="Remove ingredient"><i class="ti ti-x"></i></button>
-                  </div>
-                  <div class="list-row">
-                    <label class="sr-only" for="ing-3">Ingredient</label>
-                    <input type="text" id="ing-3" class="input" placeholder="Olive oil">
-                    <label class="sr-only" for="qty-3">Quantity</label>
-                    <input type="text" id="qty-3" class="input" placeholder="3 tbsp">
-                    <button type="button" class="list-row__remove" aria-label="Remove ingredient"><i class="ti ti-x"></i></button>
-                  </div>
-                </div>
+                <label for="ingredients" class="sr-only">Ingredients</label>
+                <textarea id="ingredients" name="ingredients" class="textarea" style="min-height:180px" placeholder="Ripe tomatoes - 1 kg&#10;Garlic cloves - 4 pcs&#10;Olive oil - 3 tbsp" required></textarea>
                 <p class="field__error"><i class="ti ti-alert-circle"></i>Add at least one ingredient.</p>
               </div>
-              <button type="button" class="btn btn--outline btn--sm add-row" id="add-ingredient" style="margin-top:var(--space-4)"><i class="ti ti-plus"></i>Add ingredient</button>
             </div>
 
             <!-- ===== Method ===== -->
