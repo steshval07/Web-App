@@ -168,6 +168,42 @@ app.get('/api/recipes/:id', (req, res) => {
   }
 });
 
+// Create a new recipe from the JSON sent by the form
+app.post('/api/recipes', (req, res) => {
+  try {
+    const { errors, recipe } = validateRecipe(req.body);
+
+    // If any field is wrong, answer 400 and list every problem
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({ errors });
+    }
+
+    const result = db.prepare(`
+      INSERT INTO recipes
+        (title, description, category, time_minutes, servings, difficulty, photo_url, ingredients, steps)
+      VALUES
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      recipe.title,
+      recipe.description,
+      recipe.category,
+      recipe.time_minutes,
+      recipe.servings,
+      recipe.difficulty,
+      recipe.photo_url,
+      recipe.ingredients,
+      recipe.steps
+    );
+
+    // Read the new recipe back (it now has an id and created_at) and answer 201 Created
+    const created = db.prepare('SELECT * FROM recipes WHERE id = ?').get(result.lastInsertRowid);
+    res.status(201).json(created);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
