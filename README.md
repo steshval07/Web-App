@@ -25,11 +25,20 @@ style.css contains all the styles for the site.
 
 How to run
 
-Right now: open public/index.html in a browser. When the backend is ready: run npm install, then node server.js, then open http://localhost:3000. Fonts, icons and photos load from the internet, so you need a connection.
+You need Node.js 22 or newer (https://nodejs.org).
+
+1. Open a terminal in the project folder.
+2. Run npm install (only the first time).
+3. Run npm start.
+4. Open http://localhost:3000 in your browser.
+
+The first start creates the database file recipes.db with 9 demo recipes. Your recipes stay saved after you close the page or restart the server. To go back to the demo recipes, stop the server, delete recipes.db and start it again.
+
+Fonts, icons and photos load from the internet, so you need a connection.
 
 Technologies
 
-HTML, CSS and JavaScript, plus the framework and database chosen by the team.
+HTML, CSS and JavaScript on the front end. Node.js with Express on the back end, and a SQLite database (better-sqlite3).
 
 Team
 
